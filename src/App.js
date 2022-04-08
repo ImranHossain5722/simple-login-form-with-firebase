@@ -2,7 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword ,sendEmailVerification} from "firebase/auth";
 import app from "./_firebase.init"
 import React, { useState } from 'react'
 
@@ -50,10 +50,9 @@ const handleResiteredChange = event => {
     
           const user =result.user
           console.log(user)
-
           setEmail('')
           setPassword('')
-    
+          verifyEmail()
         })
         .catch((error=>{
           console.log(error);
@@ -61,8 +60,17 @@ const handleResiteredChange = event => {
             
       }
       event.preventDefault()
-
   }
+  const verifyEmail =()=> {
+
+    sendEmailVerification(auth.currentUser)
+    .then(()=>{
+          console.log("email verify");
+
+    })
+  }
+
+
   return (
     <div className="">
         <div className='register w-50 mx-auto mt-4'>
