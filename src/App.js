@@ -2,7 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword ,sendEmailVerification,sendPasswordResetEmail } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword ,sendEmailVerification,sendPasswordResetEmail, updateProfile } from "firebase/auth";
 import app from "./_firebase.init"
 import React, { useState } from 'react'
 
@@ -14,6 +14,12 @@ function App() {
   const [registered, setRegisterd]= useState(false)
   const [email ,setEmail ] = useState('')
   const [password, setPassword] = useState('')
+  const [name, setName]= useState('')
+
+  const handelNameBlur =event =>{
+
+    setName(event.target.value)
+  }
 
 const handleResiteredChange = event => {
 
@@ -53,6 +59,7 @@ const handleResiteredChange = event => {
           setEmail('')
           setPassword('')
           verifyEmail()
+          setName()
           
         })
         .catch((error=>{
@@ -61,6 +68,21 @@ const handleResiteredChange = event => {
             
       }
       event.preventDefault()
+  }
+
+  const setUserName =()=>{
+    updateProfile(auth.currentUser,{
+
+      displayName:name
+    })
+    .then(()=>{
+
+
+    })
+    .catch(error=>{
+
+      console.log(error);
+    })
   }
     // for email verifi function
   const verifyEmail =()=> {
@@ -89,7 +111,7 @@ const handleResiteredChange = event => {
         <Form onSubmit={handelFormSubmit}>
         { ! registered && <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Your Name</Form.Label>
-          <Form.Control onBlur={handlemailBlur} type="text" placeholder="Your name" required />
+          <Form.Control onBlur={handelNameBlur} type="text" placeholder="Your name" required />
         </Form.Group>
         
         }
