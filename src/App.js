@@ -11,7 +11,7 @@ const auth = getAuth(app);
 
 function App() {
   
-  const [registerd, setRegisterd]= useState(false)
+  const [registered, setRegisterd]= useState(false)
   const [email ,setEmail ] = useState('')
   const [password, setPassword] = useState('')
 
@@ -33,7 +33,7 @@ const handleResiteredChange = event => {
   }
   //form data submit 
   const handelFormSubmit =event=>{
-      if (registerd){
+      if (registered){
         signInWithEmailAndPassword(auth, email, password)
 
           .then(result =>{
@@ -85,8 +85,15 @@ const handleResiteredChange = event => {
   return (
     <div className="">
         <div className='register w-50 mx-auto mt-4'>
-          <h2 className="text-primary text-align-center"> Please{registerd ? 'Login!!':'Register!!' }</h2>
+          <h2 className="text-primary text-align-center"> Please{registered ? 'Login!!':'Register!!' }</h2>
         <Form onSubmit={handelFormSubmit}>
+        { ! registered && <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Your Name</Form.Label>
+          <Form.Control onBlur={handlemailBlur} type="text" placeholder="Your name" required />
+        </Form.Group>
+        
+        }
+        
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control onBlur={handlemailBlur} type="email" placeholder="Enter email" required />
@@ -104,7 +111,7 @@ const handleResiteredChange = event => {
             <Form.Check onChange= { handleResiteredChange} type="checkbox" label="Already Registered" />
          </Form.Group>
         <Button variant="primary" type="submit">
-          {registerd ? 'Login': 'Register' }
+          {registered ? 'Login': 'Register' }
         </Button>
         <Button onClick={handelPasswordReset} variant ="link">Reset Password</Button>
       </Form> 
