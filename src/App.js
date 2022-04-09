@@ -2,7 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword ,sendEmailVerification} from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword ,sendEmailVerification,sendPasswordResetEmail } from "firebase/auth";
 import app from "./_firebase.init"
 import React, { useState } from 'react'
 
@@ -53,6 +53,7 @@ const handleResiteredChange = event => {
           setEmail('')
           setPassword('')
           verifyEmail()
+          
         })
         .catch((error=>{
           console.log(error);
@@ -61,6 +62,7 @@ const handleResiteredChange = event => {
       }
       event.preventDefault()
   }
+    // for email verifi function
   const verifyEmail =()=> {
 
     sendEmailVerification(auth.currentUser)
@@ -69,6 +71,15 @@ const handleResiteredChange = event => {
 
     })
   }
+//for password reset 
+   const handelPasswordReset =()=>{
+    sendPasswordResetEmail(auth, email)
+    .then(()=>{
+      console.log('reset password email sent');
+
+    })
+  } 
+  
 
 
   return (
@@ -92,10 +103,10 @@ const handleResiteredChange = event => {
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
             <Form.Check onChange= { handleResiteredChange} type="checkbox" label="Already Registered" />
          </Form.Group>
-      
         <Button variant="primary" type="submit">
           {registerd ? 'Login': 'Register' }
         </Button>
+        <Button onClick={handelPasswordReset} variant ="link">Reset Password</Button>
       </Form> 
 
         </div>
